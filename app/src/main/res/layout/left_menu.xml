@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+   <LinearLayout
+       android:layout_gravity="center_vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+       <FrameLayout
+           android:paddingTop="0.5dp"
+           android:background="#f4f4f4"
+           android:paddingBottom="0.5dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <RelativeLayout
+               android:background="@color/colorPrimary"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:id="@+id/answer"
+                   android:src="@drawable/ic_jog_dial_answer"
+                   android:layout_marginLeft="15dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"/>
+
+               <TextView
+                   android:layout_marginLeft="30dp"
+                   android:layout_toRightOf="@id/answer"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:textSize="20sp"
+                   android:text="拨号"
+                   android:textColor="#ffffff"/>
+           </RelativeLayout>
+       </FrameLayout>
+
+       <FrameLayout
+           android:paddingTop="0.5dp"
+           android:background="#f4f4f4"
+           android:paddingBottom="0.5dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <RelativeLayout
+               android:background="@color/colorPrimary"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:id="@+id/sound_off"
+                   android:src="@drawable/ic_jog_dial_sound_off"
+                   android:layout_marginLeft="15dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:layout_marginLeft="30dp"
+                   android:layout_toRightOf="@id/sound_off"
+                   android:text="静音"
+                   android:textColor="#ffffff"
+                   android:textSize="20sp" />
+           </RelativeLayout>
+       </FrameLayout>
+
+
+       <FrameLayout
+           android:paddingTop="0.5dp"
+           android:background="#f4f4f4"
+           android:paddingBottom="0.5dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <RelativeLayout
+               android:background="@color/colorPrimary"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:id="@+id/unlock"
+                   android:src="@drawable/ic_jog_dial_unlock"
+                   android:layout_marginLeft="15dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:layout_marginLeft="30dp"
+                   android:layout_toRightOf="@id/unlock"
+                   android:text="锁屏"
+                   android:textColor="#ffffff"
+                   android:textSize="20sp" />
+           </RelativeLayout>
+       </FrameLayout>
+
+
+       <FrameLayout
+           android:paddingTop="0.5dp"
+           android:background="#f4f4f4"
+           android:paddingBottom="0.5dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <RelativeLayout
+               android:background="@color/colorPrimary"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:id="@+id/vibrate"
+                   android:src="@drawable/ic_jog_dial_vibrate_on"
+                   android:layout_marginLeft="15dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:layout_marginLeft="30dp"
+                   android:layout_toRightOf="@id/vibrate"
+                   android:text="震动"
+                   android:textColor="#ffffff"
+                   android:textSize="20sp" />
+           </RelativeLayout>
+       </FrameLayout>
+   </LinearLayout>
+</FrameLayout>
