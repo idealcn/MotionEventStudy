@@ -22,20 +22,21 @@ class NoScrollViewPager : ViewPager{
     /**
      * 返回true自己消费
      */
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-
-        return super.dispatchTouchEvent(ev)
-    }
+//    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+//
+//        return super.dispatchTouchEvent(ev)
+//    }
 
 
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
         return false
+//        return super.onInterceptTouchEvent(ev)
     }
 
-    override fun onTouchEvent(ev: MotionEvent?): Boolean {
-        return false
-    }
+//    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+//        return false
+//    }
 
 
 

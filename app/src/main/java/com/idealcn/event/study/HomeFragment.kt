@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.ViewDragHelper
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -79,6 +80,67 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
+
+        val dragHelper = ViewDragHelper.create(recyclerView, object : ViewDragHelper.Callback() {
+
+            override fun tryCaptureView(child: View, pointerId: Int): Boolean {
+
+                return true
+            }
+
+            override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
+                super.onViewReleased(releasedChild, xvel, yvel)
+            }
+
+            override fun onEdgeLock(edgeFlags: Int): Boolean {
+                return super.onEdgeLock(edgeFlags)
+            }
+
+            override fun onEdgeDragStarted(edgeFlags: Int, pointerId: Int) {
+                super.onEdgeDragStarted(edgeFlags, pointerId)
+            }
+
+            override fun onViewDragStateChanged(state: Int) {
+                super.onViewDragStateChanged(state)
+            }
+
+            override fun onViewPositionChanged(changedView: View, left: Int, top: Int, dx: Int, dy: Int) {
+                super.onViewPositionChanged(changedView, left, top, dx, dy)
+            }
+
+            override fun onEdgeTouched(edgeFlags: Int, pointerId: Int) {
+                super.onEdgeTouched(edgeFlags, pointerId)
+            }
+
+            override fun onViewCaptured(capturedChild: View, activePointerId: Int) {
+                super.onViewCaptured(capturedChild, activePointerId)
+            }
+
+            override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
+                return super.clampViewPositionHorizontal(child, left, dx)
+            }
+
+            override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
+                return super.clampViewPositionVertical(child, top, dy)
+            }
+
+            override fun getViewHorizontalDragRange(child: View): Int {
+                return super.getViewHorizontalDragRange(child)
+            }
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+        //轮播图
 
 
         val banner = getView()!!.findViewById<Banner>(R.id.banner)
