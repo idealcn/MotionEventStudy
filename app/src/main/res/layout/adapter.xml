@@ -1,46 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.idealcn.event.study.widget.DragView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.idealcn.event.study.widget.DragView
+    android:id="@+id/dragView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:background="@color/colorPrimary">
+    >
 
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="text"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+       <include layout="@layout/layout_content"
+           android:id="@+id/layoutContent"/>
+    <include layout="@layout/layout_delete"
+        android:id="@+id/layoutDelete"/>
 
 
-    <TextView
-        android:textColor="#ffffff"
-        android:gravity="center"
-        android:id="@+id/delete"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:text="删除"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:id="@+id/cancel"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:background="#666666"
-        android:text="取消"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/delete"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </com.idealcn.event.study.widget.DragView>

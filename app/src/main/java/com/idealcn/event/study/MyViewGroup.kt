@@ -2,7 +2,10 @@ package com.idealcn.event.study
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
+import java.util.logging.Logger
 
 
 /**
@@ -11,6 +14,8 @@ import android.view.ViewGroup
  * description:
  */
 class MyViewGroup : ViewGroup {
+
+    val logger = Logger.getLogger(this.javaClass.simpleName)
 
     constructor(context: Context) : super(context) {}
 
@@ -56,8 +61,58 @@ class MyViewGroup : ViewGroup {
         val width = width
         val height = height
 
+        val childCount = childCount
+        for (x in 0..childCount){
+            val child = getChildAt(x)
+            if (null==child)continue
+            val visibility = child.visibility
+            if (visibility== View.GONE)continue
+            measureChildWithMargins(child,widthMeasureSpec,0,heightMeasureSpec,0)
+            val myParams :MyParams = child.layoutParams as MyParams
+            myParams.width = child.measuredWidth
+            myParams.height = child.measuredHeight
+
+        }
 
 
-        setMeasuredDimension(this.measuredWidth,measuredHeight)
+
+        setMeasuredDimension(measuredWidth,measuredHeight)
+    }
+
+    override fun generateDefaultLayoutParams(): MyParams {
+
+        return MyParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    override fun generateLayoutParams(attrs: AttributeSet?): MyParams {
+        return MyParams(context,attrs)
+    }
+
+    override fun generateLayoutParams(p: LayoutParams?): MyParams {
+        return MyParams(p)
+    }
+
+
+    class MyParams : MarginLayoutParams{
+        constructor(context: Context,attrs: AttributeSet?) : super(context,attrs)
+        constructor(width: Int,height: Int) : super(width,height)
+        constructor(source : LayoutParams?) : super(source)
+    }
+
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        logger.info("dispatchTouchEvent")
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        logger.info("onInterceptTouchEvent")
+
+        return super.onInterceptTouchEvent(ev)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        logger.info("onTouchEvent")
+        return super.onTouchEvent(event)
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.MotionEvent
+import java.util.logging.Logger
 
 
 /**
@@ -12,6 +13,8 @@ import android.view.MotionEvent
  * description: 不允许viewpager左右滑动
  */
 class NoScrollViewPager : ViewPager{
+
+    val  logger = Logger.getLogger(this.javaClass.simpleName)
 
 
     constructor(context: Context) : super(context)
@@ -22,21 +25,27 @@ class NoScrollViewPager : ViewPager{
     /**
      * 返回true自己消费
      */
-//    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-//
-//        return super.dispatchTouchEvent(ev)
-//    }
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        logger.info("dispatchTouchEvent")
 
-
-
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        return false
-//        return super.onInterceptTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
-//    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+
+
+//    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+//        logger.info("onInterceptTouchEvent")
 //        return false
+////        return super.onInterceptTouchEvent(ev)
 //    }
+
+//    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+//        logger.info("onTouchEvent")
+//        return false
+////        return super.onTouchEvent(ev)
+//    }
+
+
 
 
 
