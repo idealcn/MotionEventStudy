@@ -2,9 +2,11 @@ package com.idealcn.event.study
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import java.util.logging.Level
 import java.util.logging.Logger
 
 
@@ -17,6 +19,8 @@ class MyViewGroup : ViewGroup {
 
     val logger = Logger.getLogger(this.javaClass.simpleName)
 
+    val displayMetrics: DisplayMetrics = resources.displayMetrics
+
     constructor(context: Context) : super(context) {}
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
@@ -28,64 +32,41 @@ class MyViewGroup : ViewGroup {
 
         val childCount = childCount
 
-        if (childCount==0)return
+        if (childCount == 0) return
 
         val child = getChildAt(0)
+        if (child.visibility == View.GONE) return
+        val params = child.layoutParams as MyParams
 
-        val displayMetrics = resources.displayMetrics
-        val scaledDensity = displayMetrics.scaledDensity
-
-
-        val measuredWidth = measuredWidth
-        val measuredHeight = measuredHeight
-
-        if (changed) {
-            layout((scaledDensity * 10).toInt(), (scaledDensity * 10).toInt(),
-                    (measuredWidth-scaledDensity*10).toInt(), (measuredWidth-scaledDensity*10).toInt())
-//            invalidate()
-//            child.layout(30,30,30+child.measuredWidth,30+child.measuredHeight)
-
-            println("child------${child.measuredWidth}")
-            child.layout((scaledDensity * 20).toInt(),
-                    (scaledDensity * 20).toInt(),
-                    (scaledDensity * 20).toInt()+child.measuredWidth,
-                    (scaledDensity * 20).toInt()+child.measuredHeight)
-
-            requestLayout()
-        }
+        child.layout(params.leftMargin, params.topMargin, child.measuredWidth + params.leftMargin,
+                child.measuredHeight + params.topMargin)
     }
 
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val width = width
-        val height = height
+        /*
+        继承的是ViewGroup,ViewGroup的onMeasure方法中没有对子view做测量处理.需要自己在这里做处理measureChildWithMargins()
+         */
 
-        val childCount = childCount
-        for (x in 0..childCount){
+        for (x in 0 until childCount) {
             val child = getChildAt(x)
-            if (null==child)continue
-            val visibility = child.visibility
-            if (visibility== View.GONE)continue
-            measureChildWithMargins(child,widthMeasureSpec,0,heightMeasureSpec,0)
-            val myParams :MyParams = child.layoutParams as MyParams
-            myParams.width = child.measuredWidth
-            myParams.height = child.measuredHeight
-
+            //测量子view
+            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0)
+            logger.info("child.measuredWidth : ${child.measuredWidth},child.measureHeight: ${child.measuredHeight}")
         }
+        setMeasuredDimension(displayMetrics.widthPixels, displayMetrics.heightPixels)
 
 
-
-        setMeasuredDimension(measuredWidth,measuredHeight)
     }
 
     override fun generateDefaultLayoutParams(): MyParams {
 
-        return MyParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+        return MyParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     override fun generateLayoutParams(attrs: AttributeSet?): MyParams {
-        return MyParams(context,attrs)
+        return MyParams(context, attrs)
     }
 
     override fun generateLayoutParams(p: LayoutParams?): MyParams {
@@ -93,22 +74,63 @@ class MyViewGroup : ViewGroup {
     }
 
 
-    class MyParams : MarginLayoutParams{
-        constructor(context: Context,attrs: AttributeSet?) : super(context,attrs)
-        constructor(width: Int,height: Int) : super(width,height)
-        constructor(source : LayoutParams?) : super(source)
+    class MyParams : MarginLayoutParams {
+        constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+        constructor(width: Int, height: Int) : super(width, height)
+        constructor(source: LayoutParams?) : super(source)
     }
 
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        logger.info("dispatchTouchEvent")
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        logger.info("dispatchTouchEvent-------start")
+
+        when(ev.action){
+            MotionEvent.ACTION_DOWN -> {
+                logger.log(Level.INFO,"ACTION_DOWN")
+            }
+            MotionEvent.ACTION_MOVE -> {
+                logger.log(Level.INFO,"ACTION_MOVE")
+            }
+            MotionEvent.ACTION_UP -> {
+                logger.log(Level.INFO,"ACTION_UP")
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                logger.log(Level.INFO,"ACTION_CANCEL")
+            }
+            else
+            -> {
+
+            }
+        }
+        logger.info("dispatchTouchEvent-------end")
         return super.dispatchTouchEvent(ev)
     }
 
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        logger.info("onInterceptTouchEvent")
+    //只处理ACTION_DOWN事件
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        logger.info("onInterceptTouchEvent-------start")
 
-        return super.onInterceptTouchEvent(ev)
+        when(ev.action){
+            MotionEvent.ACTION_DOWN -> {
+                logger.log(Level.INFO,"ACTION_DOWN")
+            }
+            MotionEvent.ACTION_MOVE -> {
+                logger.log(Level.INFO,"ACTION_MOVE")
+            }
+            MotionEvent.ACTION_UP -> {
+                logger.log(Level.INFO,"ACTION_UP")
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                logger.log(Level.INFO,"ACTION_CANCEL")
+            }
+            else
+                 -> {
+
+            }
+        }
+        logger.info("onInterceptTouchEvent-------end")
+
+        return true
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.MotionEvent.*
+import android.view.VelocityTracker
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -156,11 +157,14 @@ class DragView : FrameLayout {
         deleteLayout.layout(contentLayout.width,0,contentLayout.width+deleteLayout.width,height)
     }
 
+    lateinit var velocityTracker: VelocityTracker
     var lastX = 0
     var lastY = 0
     override fun onTouchEvent(event : MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN){
             listener.dragDown(this@DragView)
+            velocityTracker = VelocityTracker.obtain()
+            velocityTracker.addMovement(event)
             lastX = event.x.toInt()
             lastY = event.y.toInt()
         }
@@ -168,7 +172,12 @@ class DragView : FrameLayout {
             if (Math.abs(event.x - lastX)< Math.abs(event.y - lastY)){
                 return super.onTouchEvent(event)
             }
-            parent.requestDisallowInterceptTouchEvent(true)
+            velocityTracker.computeCurrentVelocity(100)
+
+            if (velocityTracker.yVelocity>100&&Math.abs(event.x - lastX)>  Math.abs(event.y - lastY)){
+                parent.requestDisallowInterceptTouchEvent(true)
+            }
+
         }
 
         if (event.action == ACTION_CANCEL || event.action == ACTION_UP){

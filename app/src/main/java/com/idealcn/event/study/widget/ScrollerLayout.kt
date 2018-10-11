@@ -2,13 +2,10 @@ package com.idealcn.event.study.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TimeUtils
 import android.view.MotionEvent
-import android.view.VelocityTracker
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Scroller
-import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 /**
@@ -19,21 +16,20 @@ import java.util.logging.Logger
 class ScrollerLayout : FrameLayout {
 
 
-    private lateinit var scroller: Scroller
+    private var scroller: Scroller
 
     val logger :Logger = Logger.getLogger(this.javaClass.simpleName)
 
-    lateinit var tracker: VelocityTracker
+//    lateinit var tracker: VelocityTracker
 
      var canHorizontalScroll = true
 
-    var currentIndex = 0
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         scroller = Scroller(context)
-        tracker = VelocityTracker.obtain()
+//        tracker = VelocityTracker.obtain()
     }
 
     var lastDownX = 0
@@ -50,38 +46,19 @@ class ScrollerLayout : FrameLayout {
             MotionEvent.ACTION_DOWN -> {
                 parent.requestDisallowInterceptTouchEvent(true)
                 logger.info("left: $left,right:$right")
-//                tracker.addMovement(event)
                 lastDownX = event.x.toInt()
             }
 
             MotionEvent.ACTION_MOVE -> {
                 parent.requestDisallowInterceptTouchEvent(true)
-
-                scroller.startScroll(lastDownX,0,lastDownX - scrollX,0)
-                //invalidate()
-
-//                tracker.computeCurrentVelocity(100)
-//                logger.info("xVelocity: ${tracker.xVelocity}" +
-//                        ",yVelocity : ${tracker.yVelocity}")
-//                val deltX = (event.x - lastDownX).toInt()
-//                if(currentIndex==0&&deltX>0&&getChildAt(0).x>=0){
-//                    return super.onTouchEvent(event)
-//                }
-//                if (canHorizontalScroll) {
-//                    scrollBy( - deltX,0)
-//                }
-                lastDownX = event.x.toInt()
-//
-//                logger.info("scrollX: $scrollX")
-
-//                val child = getChildAt(0)
-//                logger.info("this: left: $left, x: $x,translationX: $translationX")
-//                logger.info("paddingLeft: ${child.paddingLeft}, x: ${child.x},translateX: ${child.translationX}")
+                val x = event.x
+                scroller.startScroll(lastDownX,0, (lastDownX - x).toInt(),0)
+                lastDownX = x.toInt()
+                invalidate()
             }
 
             MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL -> {
                 parent.requestDisallowInterceptTouchEvent(false)
-
                 lastDownX = 0
             }
 
@@ -104,9 +81,13 @@ class ScrollerLayout : FrameLayout {
             logger.info("child.measuredHeight: ${child.measuredHeight}," +
                     " child.measuredWidth : ${child.measuredWidth}")
             //child.measure(widthMeasureSpec,heightMeasureSpec) 这样不正确
-//         下面是正确的,但是多此一举,child.measureWidth和child.measureHeight本身已经测量好了,可以直接用
-// child.measure(MeasureSpec.makeMeasureSpec(child.measuredWidth, MeasureSpec.EXACTLY)
-//                    ,MeasureSpec.makeMeasureSpec(child.measuredHeight, MeasureSpec.EXACTLY))
+/*        下面是正确的,
+            child.measure(MeasureSpec.makeMeasureSpec(child.measuredWidth, MeasureSpec.EXACTLY)
+                  ,MeasureSpec.makeMeasureSpec(child.measuredHeight, MeasureSpec.EXACTLY))
+              考虑到继承自FrameLayout,child.measureWidth和child.measureHeight本身已经测量好了,可以直接用
+                ,无需再次测量child
+                如果继承ViewGroup,需要自己去测量child
+                  */
             val params = child.layoutParams as FrameLayout.LayoutParams
             logger.info("params: width: ${params.width},height: ${params.height}")
             pWidth += child.measuredWidth
@@ -115,7 +96,7 @@ class ScrollerLayout : FrameLayout {
         if (pWidth <= resources.displayMetrics.widthPixels){
             canHorizontalScroll = false
         }
-        setMeasuredDimension(pWidth,pHeight)
+        setMeasuredDimension(pWidth/childCount,pHeight)
     }
 
 
@@ -132,6 +113,10 @@ class ScrollerLayout : FrameLayout {
     }
 
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
+
 
 
 
@@ -140,9 +125,11 @@ class ScrollerLayout : FrameLayout {
 
 //           logger.info("scroller.currX==left?: ${scroller.currX},$left,$right")
 
+           logger.info("currX: ${scroller.currX} ,startX: ${scroller.startX},finalX: ${scroller.finalX}")
 //           scrollTo(scroller.currX,0)
 
-           scrollBy(scrollX,0)
+
+           scrollBy(-scroller.currX + scroller.finalX,0)
           postInvalidate()
        }
     }

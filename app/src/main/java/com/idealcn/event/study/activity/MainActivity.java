@@ -1,4 +1,4 @@
-package com.idealcn.event.study;
+package com.idealcn.event.study.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 
+import com.idealcn.event.study.R;
 import com.idealcn.event.study.activity.ScrollerActivity;
 import com.idealcn.event.study.fragment.BeautyFragment;
 import com.idealcn.event.study.fragment.ScrollerFragment;
@@ -34,16 +35,7 @@ public class MainActivity extends AppCompatActivity {
         final List<Fragment> fragmentList = Arrays.asList(new HomeFragment(),new RXJavaFragment(),
                 new BeautyFragment(),new ScrollerFragment());
 
-//        HorizontalScrollView
-//      final  Button btn  = findViewById(R.id.btn);
-//      final TextView textView = findViewById(R.id.textView);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                textView.animate().translationX(-300).translationY(-50).start();
-////                textView.scrollTo(-300,-300);
-//            }
-//        });
+
 
 
         final TabLayout tabLayout = findViewById(R.id.tabLayout);

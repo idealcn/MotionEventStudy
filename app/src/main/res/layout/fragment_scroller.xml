@@ -5,15 +5,17 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/first"
         android:background="@color/colorAccent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <FrameLayout
-        android:background="#000000"
+        android:background="#d01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <FrameLayout
+        android:id="@+id/last"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

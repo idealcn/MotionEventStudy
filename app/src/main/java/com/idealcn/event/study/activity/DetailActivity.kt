@@ -1,7 +1,8 @@
-package com.idealcn.event.study
+package com.idealcn.event.study.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.idealcn.event.study.R
 
 
 /**

@@ -1,12 +1,10 @@
 package com.idealcn.event.study.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
-import android.support.v4.widget.ViewDragHelper
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,7 +13,6 @@ import android.view.*
 import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.idealcn.event.study.DetailActivity
 import com.idealcn.event.study.R
 
 import com.idealcn.event.study.widget.DragView
