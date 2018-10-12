@@ -55,28 +55,25 @@ class HomeFragment : Fragment() {
     }
 
     var openPosition = -1
+    val map = hashMapOf<String,DragView>()
 
-    val adapter = object : BaseQuickAdapter<String,BaseViewHolder>(R.layout.adapter,data){
+    val adapter = object : BaseQuickAdapter<String,BaseViewHolder>(R.layout.adapter_home,data){
         override fun convert(helper: BaseViewHolder?, item: String?) {
             val layoutPosition = helper!!.layoutPosition
 
-
-
-            //helper!!.setText(R.id.text,item)
             helper!!.getView<DragView>(R.id.dragView).setOnHorizontalDragListener(object : DragView.OnHorizontalDragListener{
                 override fun open(open:Boolean,dragView: DragView) {
-                    if (open){
+
+                    //打开一个新的item
+                    if(layoutPosition!=openPosition && open){
+                        //存储新打开的item
+                        map["$layoutPosition"] = dragView
+                        //关闭之前打开的item
+                        map["$openPosition"]?.close()
                         openPosition = layoutPosition
-                    }else{
-
                     }
-                }
-
-                override fun dragDown(dragView: DragView) {
 
                 }
-
-
             })
         }
 

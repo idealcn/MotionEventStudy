@@ -47,6 +47,8 @@ class MyViewGroup : ViewGroup {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         /*
         继承的是ViewGroup,ViewGroup的onMeasure方法中没有对子view做测量处理.需要自己在这里做处理measureChildWithMargins()
+        测量View要考虑margin,测量view内容要考虑padding
+        与measureChild()作比较
          */
 
         for (x in 0 until childCount) {
