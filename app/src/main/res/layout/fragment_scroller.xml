@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.idealcn.event.study.widget.ScrollerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/first"
-        android:background="@color/colorAccent"
+    <com.idealcn.event.study.widget.ScrollerLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:background="#d01"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <FrameLayout
-        android:id="@+id/last"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <FrameLayout
+            android:id="@+id/first"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-</com.idealcn.event.study.widget.ScrollerLayout>
+        <FrameLayout
+            android:background="#d01"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <FrameLayout
+            android:id="@+id/last"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.idealcn.event.study.widget.ScrollerLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.idealcn.event.study.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.idealcn.event.study.R
+import com.idealcn.event.study.activity.DetailActivity
 import java.util.logging.Logger
 
 
@@ -32,7 +34,7 @@ class ScrollerFragment : Fragment() {
         println("--------onCreateView-----------")
 
 
-        return inflater.inflate(R.layout.fragment_scroller,container,false)
+        return inflater.inflate(R.layout.activity_detail,container,false)
     }
 
 
@@ -41,6 +43,9 @@ class ScrollerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         println("--------onViewCreated-----------")
 
+        view.findViewById<Button>(R.id.button).setOnClickListener {
+            startActivity(Intent(activity,DetailActivity::class.java))
+        }
 
 //        val button = view.findViewById<Button>(R.id.btnScroller)
 //        button.setOnClickListener {

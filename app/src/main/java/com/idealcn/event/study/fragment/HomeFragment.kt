@@ -1,6 +1,7 @@
 package com.idealcn.event.study.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.PagerAdapter
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.idealcn.event.study.R
+import com.idealcn.event.study.activity.DetailActivity
 
 import com.idealcn.event.study.widget.DragView
 import com.youth.banner.Banner
