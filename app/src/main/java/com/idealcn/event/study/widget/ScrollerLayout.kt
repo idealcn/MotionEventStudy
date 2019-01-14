@@ -133,7 +133,8 @@ class ScrollerLayout : FrameLayout {
             }
 
             override fun getViewHorizontalDragRange(child: View): Int {
-                return width * childCount
+               return  child.width * 2
+
             }
 
             override fun getViewVerticalDragRange(child: View): Int {
