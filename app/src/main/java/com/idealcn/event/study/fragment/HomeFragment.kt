@@ -32,6 +32,9 @@ class HomeFragment : Fragment() {
     lateinit var recyclerView : RecyclerView
 
     val data = arrayListOf<String>(
+            "RxJava","Retrofit","OkHttp","Dagger2","Room","Realm","Kotlin","Java8",
+            "RxJava","Retrofit","OkHttp","Dagger2","Room","Realm","Kotlin","Java8",
+            "RxJava","Retrofit","OkHttp","Dagger2","Room","Realm","Kotlin","Java8",
             "RxJava","Retrofit","OkHttp","Dagger2","Room","Realm","Kotlin","Java8"
     )
 
@@ -62,6 +65,7 @@ class HomeFragment : Fragment() {
     val adapter = object : BaseQuickAdapter<String,BaseViewHolder>(R.layout.adapter_home,data){
         override fun convert(helper: BaseViewHolder?, item: String?) {
             val layoutPosition = helper!!.layoutPosition
+            helper.setText(R.id.delete,data.get(layoutPosition)+"------------$layoutPosition")
 
             helper!!.getView<DragView>(R.id.dragView).setOnHorizontalDragListener(object : DragView.OnHorizontalDragListener{
                 override fun open(open:Boolean,dragView: DragView) {
@@ -105,6 +109,17 @@ class HomeFragment : Fragment() {
 
 
         }
+        recyclerView.setRecyclerListener(object : RecyclerView.RecyclerListener{
+            override fun onViewRecycled(holder: RecyclerView.ViewHolder?) {
+                holder?.let {
+                    val recyclable = it.isRecyclable
+                    val adapterPosition = it.adapterPosition
+                    val layoutPosition = it.layoutPosition
+                    println("recyclable: $recyclable,adapterPosition: $adapterPosition,layoutPosition: $layoutPosition")
+                }
+            }
+
+        })
 
 
         val listOf = listOf<Int>(

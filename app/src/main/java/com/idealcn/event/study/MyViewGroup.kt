@@ -83,7 +83,7 @@ class MyViewGroup : ViewGroup {
     }
 
 
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+   /* override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         logger.info("dispatchTouchEvent-------start")
 
         when(ev.action){
@@ -132,11 +132,11 @@ class MyViewGroup : ViewGroup {
         }
         logger.info("onInterceptTouchEvent-------end")
 
-        return true
+        return super.onInterceptTouchEvent(ev)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         logger.info("onTouchEvent")
         return super.onTouchEvent(event)
-    }
+    }*/
 }

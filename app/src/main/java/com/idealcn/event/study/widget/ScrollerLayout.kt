@@ -1,6 +1,7 @@
 package com.idealcn.event.study.widget
 
 import android.content.Context
+import android.support.v4.view.ViewCompat
 import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -84,9 +85,26 @@ class ScrollerLayout : FrameLayout {
             }
 
             override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
-                super.onViewReleased(releasedChild, xvel, yvel)
                 val left = releasedChild.left
-                if (releasedChild == getChildAt(0)){
+                 val childCount = childCount
+                 for (x in 0 until childCount){
+                     val child = getChildAt(x)
+                     if (releasedChild == child){
+                         if (left-releasedChild.width*x+(x+1)*releasedChild.width/2<0){
+                             for (y in 0 until childCount){
+                                 dragHelper.smoothSlideViewTo(getChildAt(y),releasedChild.width*(y-1),0)
+                             }
+                         }
+                         else {
+                             for (y in 0 until childCount){
+                                 dragHelper.smoothSlideViewTo(getChildAt(y),releasedChild.width*y,0)
+                             }
+                         }
+                         break
+                     }
+                 }
+
+             /*   if (releasedChild == getChildAt(0)){
                     if (left<0){
                         if (left+releasedChild.width/2<0){
                             dragHelper.smoothSlideViewTo(releasedChild,-releasedChild.width,0)
@@ -124,8 +142,9 @@ class ScrollerLayout : FrameLayout {
                     if (left<width/2){
                         dragHelper.smoothSlideViewTo(releasedChild,0,0)
                     }
-                }
-                invalidate()
+                }*/
+               ViewCompat.postInvalidateOnAnimation(this@ScrollerLayout)
+
             }
 
             override fun onViewDragStateChanged(state: Int) {
@@ -194,7 +213,13 @@ class ScrollerLayout : FrameLayout {
         super.onAttachedToWindow()
     }
 
-
+    override fun computeScroll() {
+        super.computeScroll()
+        if (dragHelper.continueSettling(true)) {
+            ViewCompat.postInvalidateOnAnimation(this)
+        }
+        //            invalidate();
+    }
 
 
 }

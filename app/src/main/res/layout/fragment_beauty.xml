@@ -9,7 +9,7 @@
     <com.idealcn.event.study.MyButton
         android:layout_margin="30dp"
         android:background="@color/colorPrimary"
-        android:id="@+id/textView2"
+        android:id="@+id/myButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:text="beauty"

@@ -53,6 +53,11 @@ class MyButton : View {
         return false
     }
 
+    override fun performClick(): Boolean {
+
+        return super.performClick()
+    }
+
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         logger.info("dispatchTouchEvent----------start")
         when(event!!.action){

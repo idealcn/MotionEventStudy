@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import com.idealcn.event.study.MyButton
 import com.idealcn.event.study.R
 
 
@@ -50,7 +53,10 @@ class BeautyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         println("--------onActivityCreated-----------")
-
+       val myButton =  view!!.findViewById<MyButton>(R.id.myButton)
+        myButton.setOnClickListener {
+            println("----------------------")
+        }
     }
 
 
