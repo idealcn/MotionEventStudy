@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.OverScroller
 import java.util.logging.Logger
 
 /**
@@ -37,60 +36,21 @@ class ScrollerLayout : FrameLayout {
             }
 
             override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
-
                 for (x in 0 until childCount) {
                     if (getChildAt(x) == child) {
-
                         var clampLeft = 0
                         var clampRight = 0
                         for (y in 0 until x) {
                             clampLeft += getChildAt(y).width
                         }
-
-
                         for (y in x + 1 until childCount) {
                             clampRight += getChildAt(y).width
                         }
-
-
                         if (left > clampLeft) return clampLeft
-
                         if (left + clampRight < 0) return clampRight
-
-
-                        /* if (left>x*child.width){
-                             var dragLeftRange = 0
-                             for (y in 0 until x){
-                                 dragLeftRange += getChildAt(y).width
-                             }
-                            // dragRange -= getChildAt(x-1).width
-                             return  dragLeftRange
-                         }
-                         else{
-                             var dragRightRange = 0
-                             for (y in x+1 until childCount){
-                                 dragRightRange += getChildAt(y).width
-                             }
-                             return  dragRightRange
-                         }*/
                     }
                 }
-
-
-                /*  if (getChildAt(0) == child){
-                      if (left>0)return 0
-                      if (left<-child.width * 2)return - child.width * 2
-                  }
-                  if (getChildAt(1) == child){
-                      if (left>child.width)return child.width
-                      if (left<-child.width) return -child.width
-                  }
-                  if (getChildAt(2) == child){
-                      if (left>child.width * 2)return child.width * 2
-                      if (left<0)return 0
-                  }*/
                 return left
-
             }
 
             override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
@@ -106,27 +66,21 @@ class ScrollerLayout : FrameLayout {
                 for (x in 0 until childCount) {
                     if (getChildAt(x) == changedView) {
                         changedView.layout(left, 0, left + changedView.width, height)
-
                         var totalChildWidth: Int = 0
-
                         for (y in x - 1 downTo 0) {
                             val child = getChildAt(y)
                             totalChildWidth += child.width
                             child.layout(left - totalChildWidth, top, left - (totalChildWidth - child.width), height)
                         }
-
                         totalChildWidth = 0
                         for (y in x + 1 until childCount) {
                             val child = getChildAt(y)
                             totalChildWidth += child.width
                             child.layout(left + changedView.width + (totalChildWidth - child.width), 0, left + changedView.width + totalChildWidth, height)
                         }
-
-
                         break
                     }
                 }
-
             }
 
             override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
@@ -135,16 +89,10 @@ class ScrollerLayout : FrameLayout {
                 for (x in 0 until childCount) {
                     val child = getChildAt(x)
                     if (releasedChild == child) {
-
-
                         if (left > 0) {
-
                             if (left - releasedChild.width / 2 > 0) {
-
                                 dragHelper.smoothSlideViewTo(releasedChild, getChildAt(x - 1).width, 0)
-
                                 var totalChildWidth = -getChildAt(x - 1).width
-
                                 for (y in x - 1 downTo 0) {
                                     totalChildWidth += getChildAt(y).width
                                     dragHelper.smoothSlideViewTo(getChildAt(y), -totalChildWidth, 0)
@@ -154,9 +102,7 @@ class ScrollerLayout : FrameLayout {
                                     dragHelper.smoothSlideViewTo(getChildAt(y), totalChildWidth, 0)
                                     totalChildWidth += getChildAt(y).width
                                 }
-
                             } else {
-
                                 dragHelper.smoothSlideViewTo(releasedChild, 0, 0)
 
                                 var totalChildWidth = 0
@@ -169,12 +115,8 @@ class ScrollerLayout : FrameLayout {
                                     dragHelper.smoothSlideViewTo(getChildAt(y), totalChildWidth, 0)
                                     totalChildWidth += getChildAt(y).width
                                 }
-
-
                             }
-
                         } else {
-
                             if (left + releasedChild.width / 2 < 0) {
                                 dragHelper.smoothSlideViewTo(releasedChild, -releasedChild.width, 0)
                                 var totalChildWidth = releasedChild.width
@@ -188,7 +130,6 @@ class ScrollerLayout : FrameLayout {
                                     dragHelper.smoothSlideViewTo(childY, totalChildWidth, 0)
                                     totalChildWidth += childY.width
                                 }
-
                             } else {
                                 dragHelper.smoothSlideViewTo(releasedChild, 0, 0)
                                 var totalChildWidth = 0
@@ -196,24 +137,17 @@ class ScrollerLayout : FrameLayout {
                                     totalChildWidth += getChildAt(y).width
                                     dragHelper.smoothSlideViewTo(getChildAt(y), -totalChildWidth, 0)
                                 }
-
                                 totalChildWidth = releasedChild.width
                                 for (y in x + 1 until childCount) {
                                     dragHelper.smoothSlideViewTo(getChildAt(y), totalChildWidth, 0)
                                     totalChildWidth += getChildAt(y).width
                                 }
                             }
-
                         }
-
-
                         break
                     }
                 }
-
-
                 ViewCompat.postInvalidateOnAnimation(this@ScrollerLayout)
-
             }
 
             override fun onViewDragStateChanged(state: Int) {
@@ -291,7 +225,6 @@ class ScrollerLayout : FrameLayout {
         if (dragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this)
         }
-        //            invalidate();
     }
 
 

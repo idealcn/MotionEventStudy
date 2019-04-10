@@ -7,6 +7,7 @@
 
     <com.youth.banner.Banner
         android:visibility="gone"
+
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -16,7 +17,8 @@
 
     </com.youth.banner.Banner>
 
-    <android.support.v4.view.ViewPager
+    <com.idealcn.event.study.widget.BannerPager
+
         android:id="@+id/viewPager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

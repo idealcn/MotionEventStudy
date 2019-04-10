@@ -17,7 +17,7 @@ import java.util.logging.Logger
  */
 class MyViewGroup : ViewGroup {
 
-    val logger = Logger.getLogger(this.javaClass.simpleName)
+    val logger = Logger.getLogger("motion")
 
     val displayMetrics: DisplayMetrics = resources.displayMetrics
 
@@ -83,60 +83,84 @@ class MyViewGroup : ViewGroup {
     }
 
 
-   /* override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        logger.info("dispatchTouchEvent-------start")
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        logger.log(Level.INFO,"ViewGroup:             dispatchTouchEvent-------start")
 
         when(ev.action){
             MotionEvent.ACTION_DOWN -> {
-                logger.log(Level.INFO,"ACTION_DOWN")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
             }
             MotionEvent.ACTION_MOVE -> {
-                logger.log(Level.INFO,"ACTION_MOVE")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
             }
             MotionEvent.ACTION_UP -> {
-                logger.log(Level.INFO,"ACTION_UP")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_UP")
             }
             MotionEvent.ACTION_CANCEL -> {
-                logger.log(Level.INFO,"ACTION_CANCEL")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_CANCEL")
             }
             else
             -> {
 
             }
         }
-        logger.info("dispatchTouchEvent-------end")
+        logger.log(Level.INFO,"ViewGroup:             dispatchTouchEvent-------end")
         return super.dispatchTouchEvent(ev)
     }
 
     //只处理ACTION_DOWN事件
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        logger.info("onInterceptTouchEvent-------start")
+        logger.log(Level.INFO,"ViewGroup:             onInterceptTouchEvent-------start")
 
         when(ev.action){
             MotionEvent.ACTION_DOWN -> {
-                logger.log(Level.INFO,"ACTION_DOWN")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
             }
             MotionEvent.ACTION_MOVE -> {
-                logger.log(Level.INFO,"ACTION_MOVE")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
             }
             MotionEvent.ACTION_UP -> {
-                logger.log(Level.INFO,"ACTION_UP")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_UP")
             }
             MotionEvent.ACTION_CANCEL -> {
-                logger.log(Level.INFO,"ACTION_CANCEL")
+                logger.log(Level.INFO,"ViewGroup:             ACTION_CANCEL")
             }
             else
                  -> {
 
             }
         }
-        logger.info("onInterceptTouchEvent-------end")
+        logger.log(Level.INFO,"ViewGroup:             onInterceptTouchEvent-------end")
 
+      //  return true
+                //false和super是一样的
+        //return false
         return super.onInterceptTouchEvent(ev)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        logger.info("onTouchEvent")
+        logger.log(Level.INFO,"ViewGroup:             onTouchEvent-------start")
+
+        when(event!!.action){
+            MotionEvent.ACTION_DOWN -> {
+                logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
+            }
+            MotionEvent.ACTION_MOVE -> {
+                logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
+            }
+            MotionEvent.ACTION_UP -> {
+                logger.log(Level.INFO,"ViewGroup:             ACTION_UP")
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                logger.log(Level.INFO,"ViewGroup:             ACTION_CANCEL")
+            }
+            else
+            -> {
+
+            }
+        }
+        logger.log(Level.INFO,"ViewGroup:             onTouchEvent-------end")
         return super.onTouchEvent(event)
-    }*/
+       // return true
+    }
 }

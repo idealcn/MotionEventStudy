@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 
 import com.idealcn.event.study.R;
 import com.idealcn.event.study.activity.ScrollerActivity;
@@ -17,6 +18,7 @@ import com.idealcn.event.study.fragment.HomeFragment;
 import com.idealcn.event.study.fragment.RXJavaFragment;
 import com.idealcn.event.study.widget.NoScrollViewPager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -36,11 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 new BeautyFragment(),new ScrollerFragment());
 
 
+        List<ImageView> list = new ArrayList<>(5);
 
 
         final TabLayout tabLayout = findViewById(R.id.tabLayout);
         final NoScrollViewPager viewPager = findViewById(R.id.viewPager);
-
+        viewPager.setScroll(false);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //必须先设置了TabMode
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

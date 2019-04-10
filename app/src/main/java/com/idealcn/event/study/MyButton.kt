@@ -16,7 +16,7 @@ import java.util.logging.Logger
  * description:
  */
 class MyButton : View {
-    val logger = Logger.getLogger(this.javaClass.simpleName)
+    val logger = Logger.getLogger("motion")
 
 
     constructor( context: Context) : super(context)
@@ -25,32 +25,38 @@ class MyButton : View {
 
     constructor(context: Context,attributes: AttributeSet,defStyleAttr : Int) : super(context,attributes,defStyleAttr)
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        setMeasuredDimension(150,150)
+    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        logger.info("onTouchEvent----------start")
+        logger.log(Level.INFO,"view:                        onTouchEvent----------start")
         when(event.action){
             MotionEvent.ACTION_DOWN -> {
-                logger.log(Level.INFO,"ACTION_DOWN")
+                logger.log(Level.INFO,"view:                        ACTION_DOWN")
             }
             MotionEvent.ACTION_MOVE -> {
-                logger.log(Level.INFO,"ACTION_MOVE")
+                logger.log(Level.INFO,"view:                        ACTION_MOVE")
             }
             MotionEvent.ACTION_UP -> {
-                logger.log(Level.INFO,"ACTION_UP")
+                logger.log(Level.INFO,"view:                        ACTION_UP")
             }
             MotionEvent.ACTION_CANCEL -> {
-                logger.log(Level.INFO,"ACTION_CANCEL")
+                logger.log(Level.INFO,"view:                        ACTION_CANCEL")
             }
             else
             -> {
 
             }
         }
-        logger.info("onTouchEvent----------end")
+        logger.log(Level.INFO,"view:                        onTouchEvent----------end")
 
-//        return super.onTouchEvent(event)
-//        return true
-        return false
+        //返回false和super.onTouchEvent(event)是一样的.
+//        return false
+       return super.onTouchEvent(event)
+
+      //  return true
     }
 
     override fun performClick(): Boolean {
@@ -59,29 +65,29 @@ class MyButton : View {
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        logger.info("dispatchTouchEvent----------start")
+        logger.log(Level.INFO,"view:                        dispatchTouchEvent----------start")
         when(event!!.action){
             MotionEvent.ACTION_DOWN -> {
-                logger.log(Level.INFO,"ACTION_DOWN")
+                logger.log(Level.INFO,"view:                        ACTION_DOWN")
             }
             MotionEvent.ACTION_MOVE -> {
-                logger.log(Level.INFO,"ACTION_MOVE")
+                logger.log(Level.INFO,"view:                        ACTION_MOVE")
             }
             MotionEvent.ACTION_UP -> {
-                logger.log(Level.INFO,"ACTION_UP")
+                logger.log(Level.INFO,"view:                        ACTION_UP")
             }
             MotionEvent.ACTION_CANCEL -> {
-                logger.log(Level.INFO,"ACTION_CANCEL")
+                logger.log(Level.INFO,"view:                        ACTION_CANCEL")
             }
             else
             -> {
 
             }
         }
-        logger.info("dispatchTouchEvent----------end")
+        logger.log(Level.INFO,"view:                        dispatchTouchEvent----------end")
 
-//        return super.dispatchTouchEvent(event)
+        return super.dispatchTouchEvent(event)
         //return true //自己消费掉
-        return false
+       // return false
     }
 }

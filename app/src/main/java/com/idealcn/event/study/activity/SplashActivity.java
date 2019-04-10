@@ -20,5 +20,20 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashActivity.this,ScrollerActivity.class));
             }
         });
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SplashActivity.this,DetailActivity.class));
+            }
+        });
+
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SplashActivity.this,MainActivity.class));
+
+            }
+        });
     }
 }

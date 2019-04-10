@@ -16,10 +16,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.idealcn.event.study.R
 import com.idealcn.event.study.activity.DetailActivity
+import com.idealcn.event.study.widget.BannerPager
 
 import com.idealcn.event.study.widget.DragView
 import com.youth.banner.Banner
 import com.youth.banner.loader.ImageLoaderInterface
+import java.util.ArrayList
 
 
 /**
@@ -92,7 +94,6 @@ class HomeFragment : Fragment() {
 
         recyclerView = getView()!!.findViewById(R.id.recyclerView)
 
-        val slop = ViewConfiguration.get(_context).scaledTouchSlop
         recyclerView.setScrollingTouchSlop(TOUCH_SLOP_PAGING)
 
         recyclerView.layoutManager = LinearLayoutManager(_context)
@@ -125,25 +126,42 @@ class HomeFragment : Fragment() {
         val listOf = listOf<Int>(
                 R.drawable.fengjing,
                 R.drawable.fengjing1,
-                R.drawable.fengjing2
+                R.drawable.fengjing2,
+                R.drawable.fengjing3,
+                R.drawable.fengjing4
         )
 
-        view.findViewById<ViewPager>(R.id.viewPager).adapter = object : PagerAdapter(){
+
+        val imageList = mutableListOf<ImageView>()
+        var iv : ImageView? = null
+        for (x in 0 until listOf.size){
+            iv = ImageView(_context)
+            iv.scaleType = ImageView.ScaleType.CENTER_CROP
+            iv.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            iv.setImageResource(listOf[x])
+            imageList.add(iv)
+        }
+
+
+        view.findViewById<BannerPager>(R.id.viewPager).adapter = object : PagerAdapter(){
 
             override fun isViewFromObject(view: View, `object`: Any): Boolean {
                 return view == `object`
             }
 
             override fun getCount(): Int {
-                return 3
+                return listOf.size
             }
 
-            override fun instantiateItem(container: ViewGroup, position: Int): Any {
-                val imageView = ImageView(_context)
-                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-                imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
+            override fun instantiateItem(container: ViewGroup, position: Int): ImageView {
+                var imageView :ImageView? =   imageList[position]
+                if (imageView == null) {
+                    imageView = ImageView(_context)
+                    imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                    imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    imageView.setImageResource(listOf[position])
+                }
                 container.addView(imageView)
-                imageView.setImageResource(listOf[position])
                 return imageView
             }
 
@@ -180,7 +198,9 @@ class HomeFragment : Fragment() {
         .setImages(arrayListOf<Int>(
                 R.drawable.fengjing,
                 R.drawable.fengjing1,
-                R.drawable.fengjing2
+                R.drawable.fengjing2,
+                R.drawable.fengjing3,
+                R.drawable.fengjing4
                 ))
        .setBannerTitles(listOf(
                 "风景","美女","车展","美食"
