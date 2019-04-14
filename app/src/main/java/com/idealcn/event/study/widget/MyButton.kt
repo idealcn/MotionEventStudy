@@ -1,4 +1,4 @@
-package com.idealcn.event.study
+package com.idealcn.event.study.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -27,7 +27,7 @@ class MyButton : View {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        setMeasuredDimension(150,150)
+        setMeasuredDimension(450,450)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -35,9 +35,12 @@ class MyButton : View {
         when(event.action){
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"view:                        ACTION_DOWN")
+                //return true
+
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"view:                        ACTION_MOVE")
+                //return true
             }
             MotionEvent.ACTION_UP -> {
                 logger.log(Level.INFO,"view:                        ACTION_UP")

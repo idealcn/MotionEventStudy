@@ -30,14 +30,15 @@ class DetailActivity : AppCompatActivity(){
         when(ev!!.action){
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"Activity:                    ACTION_DOWN")
+              //  return false
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"Activity:                    ACTION_MOVE")
-
+              //  return true
             }
             MotionEvent.ACTION_UP -> {
                 logger.log(Level.INFO,"Activity:                    ACTION_UP")
-
+              //  return true
             }
 
             MotionEvent.ACTION_CANCEL -> {
@@ -46,7 +47,7 @@ class DetailActivity : AppCompatActivity(){
             }
         }
         logger.log(Level.INFO,"Activity:                    dispatchTouchEvent ----------- end")
-
+        //return true
         return super.dispatchTouchEvent(ev)
     }
 
@@ -56,6 +57,7 @@ class DetailActivity : AppCompatActivity(){
         when(event!!.action){
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"Activity:                    ACTION_DOWN")
+               // return true
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"Activity:                    ACTION_MOVE")

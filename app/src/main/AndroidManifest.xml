@@ -20,6 +20,7 @@
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.DetailActivity" />
         <activity android:name=".activity.ScrollerActivity" />
+        <activity android:name=".activity.ViewPagerActivity" />
     </application>
 
 </manifest>

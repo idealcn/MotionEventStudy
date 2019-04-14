@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.idealcn.event.study.MyViewGroup
+<com.idealcn.event.study.widget.MyViewGroup
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.idealcn.event.study.MyButton
+    <com.idealcn.event.study.widget.MyButton
         android:layout_margin="30dp"
         android:background="@color/colorPrimary"
         android:id="@+id/myButton"
@@ -15,4 +15,4 @@
         android:text="beauty"
         android:textSize="30sp"
         />
-</com.idealcn.event.study.MyViewGroup>
+</com.idealcn.event.study.widget.MyViewGroup>

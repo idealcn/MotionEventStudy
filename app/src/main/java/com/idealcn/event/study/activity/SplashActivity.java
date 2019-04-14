@@ -35,5 +35,12 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         });
+
+        findViewById(R.id.viewpager).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SplashActivity.this,ViewPagerActivity.class));
+            }
+        });
     }
 }

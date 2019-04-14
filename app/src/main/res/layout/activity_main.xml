@@ -22,7 +22,7 @@
         android:background="@color/colorAccent"
         android:text="hhhh"/>
 
-    <com.idealcn.event.study.MyHorizontalScrollView
+    <com.idealcn.event.study.widget.MyHorizontalScrollView
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,7 +42,7 @@
                 android:background="#9933ff"></FrameLayout>
         </LinearLayout>
 
-    </com.idealcn.event.study.MyHorizontalScrollView>
+    </com.idealcn.event.study.widget.MyHorizontalScrollView>
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.idealcn.event.study;
+package com.idealcn.event.study.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+
+import com.idealcn.event.study.R;
 
 /**
  * Created by ideal-gn on 2017/9/23.

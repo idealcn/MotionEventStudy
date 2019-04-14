@@ -1,4 +1,4 @@
-package com.idealcn.event.study
+package com.idealcn.event.study.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -64,7 +64,7 @@ class MyViewGroup : ViewGroup {
 
     override fun generateDefaultLayoutParams(): MyParams {
 
-        return MyParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        return MyParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
     }
 
     override fun generateLayoutParams(attrs: AttributeSet?): MyParams {
@@ -89,9 +89,12 @@ class MyViewGroup : ViewGroup {
         when(ev.action){
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
+               // return false
+               // parent.requestDisallowInterceptTouchEvent(true)
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
+               // return false
             }
             MotionEvent.ACTION_UP -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_UP")
@@ -108,13 +111,13 @@ class MyViewGroup : ViewGroup {
         return super.dispatchTouchEvent(ev)
     }
 
-    //只处理ACTION_DOWN事件
+
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         logger.log(Level.INFO,"ViewGroup:             onInterceptTouchEvent-------start")
-
         when(ev.action){
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
+                //return true
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
@@ -127,12 +130,10 @@ class MyViewGroup : ViewGroup {
             }
             else
                  -> {
-
             }
         }
         logger.log(Level.INFO,"ViewGroup:             onInterceptTouchEvent-------end")
-
-      //  return true
+       // return true
                 //false和super是一样的
         //return false
         return super.onInterceptTouchEvent(ev)
@@ -144,9 +145,11 @@ class MyViewGroup : ViewGroup {
         when(event!!.action){
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
+               // return true
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
+                //return true
             }
             MotionEvent.ACTION_UP -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_UP")
