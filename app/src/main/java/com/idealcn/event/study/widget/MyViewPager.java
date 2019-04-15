@@ -22,31 +22,24 @@ public class MyViewPager extends ViewPager {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+
         return super.dispatchTouchEvent(ev);
     }
 
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getAction()==MotionEvent.ACTION_MOVE){
+            getParent().requestDisallowInterceptTouchEvent(true);
+            return true;
+        }
 //        return true;
         return super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
-        if (action ==MotionEvent.ACTION_DOWN || action ==MotionEvent.ACTION_MOVE) {
-            PagerAdapter adapter = getAdapter();
-            if (adapter != null) {
-                int count = adapter.getCount();
-                if (getCurrentItem() == count - 1) {
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
-            }
-        }
-        if (action ==MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL){
-            getParent().requestDisallowInterceptTouchEvent(false);
-        }
+
         return super.onTouchEvent(ev);
     }
 }
