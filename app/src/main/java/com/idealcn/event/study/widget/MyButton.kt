@@ -1,9 +1,13 @@
 package com.idealcn.event.study.widget
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
+import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewPropertyAnimator
 import android.widget.Button
 import java.util.jar.Attributes
 import java.util.logging.Level
@@ -19,6 +23,10 @@ class MyButton : View {
     val logger = Logger.getLogger("motion")
 
 
+    private  var lastDownX : Float = 0F
+    private var lastDownY:Float = 0f
+    private val scaledTouchSlop: Int = 0
+
     constructor( context: Context) : super(context)
 
     constructor( context: Context,attributes: AttributeSet) : super(context,attributes)
@@ -28,6 +36,8 @@ class MyButton : View {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(450,450)
+
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -36,17 +46,53 @@ class MyButton : View {
             MotionEvent.ACTION_DOWN -> {
                 logger.log(Level.INFO,"view:                        ACTION_DOWN")
                 //return true
-
+                lastDownX = event.rawX
+                lastDownY = event.rawY
+                println("actionIndex: ${event.actionIndex},pointerCount: ${event.pointerCount}")
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"view:                        ACTION_MOVE")
                 //return true
+
+                println("lastDownX:$lastDownX,  lastDownY: $lastDownY")
+
+
+
+//                ViewCompat.postInvalidateOnAnimation(this)
+                //requestLayout()
+
+
             }
             MotionEvent.ACTION_UP -> {
+                val moveX = event.rawX
+                val moveY = event.rawY
+
+                val diffX = moveX - lastDownX
+                val diffY = moveY - lastDownY
+
+                println("diffX:$diffX,  diffY: $diffY")
+
+//                translationX = diffX
+//                translationY = diffY
+
+//                lastDownX = moveX
+//                lastDownY = moveY
+
+//                ObjectAnimator.ofFloat(this,"translationX",diffX).start()
+//
+//                ObjectAnimator.ofFloat(this,"translationY",diffY).start()
+
+
+
+
+                lastDownX = 0f
+                lastDownY = 0f
                 logger.log(Level.INFO,"view:                        ACTION_UP")
             }
             MotionEvent.ACTION_CANCEL -> {
                 logger.log(Level.INFO,"view:                        ACTION_CANCEL")
+                lastDownX = 0f
+                lastDownY = 0f
             }
             else
             -> {
@@ -57,9 +103,9 @@ class MyButton : View {
 
         //返回false和super.onTouchEvent(event)是一样的.
 //        return false
-       return super.onTouchEvent(event)
+     //  return super.onTouchEvent(event)
 
-      //  return true
+        return true
     }
 
     override fun performClick(): Boolean {

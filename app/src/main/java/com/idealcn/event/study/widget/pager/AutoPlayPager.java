@@ -1,9 +1,6 @@
-package com.idealcn.event.study.widget;
+package com.idealcn.event.study.widget.pager;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -11,40 +8,41 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.ViewParent;
 
-public class BannerPager extends ViewPager {
+public class AutoPlayPager extends ViewPager {
 
     private VelocityTracker mVelocityTracker;
 
-    private static int currentIndex;
-
-    private static Handler handler = new Handler(Looper.getMainLooper()){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            handler.post(loopTask);
-        }
-    };
-
-    private static Runnable loopTask = new Runnable() {
-        @Override
-        public void run() {
-
-        }
-    };
+    private  int currentIndex = 1;
+    private int pageCount = 0;
+    private float lastDownX = 0;
+    private long autoPlayInterval = 2000L;
+    private boolean autoPlay = true;
 
 
-    public BannerPager(@NonNull Context context) {
+    public AutoPlayPager(@NonNull Context context) {
         super(context);
     }
 
-    public BannerPager(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public AutoPlayPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+       // setCurrentItem(currentIndex);
     }
 
-    float lastDownX = 0;
-
     @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_MOVE){
+            final ViewParent parent = getParent();
+            if (null!=parent){
+                parent.requestDisallowInterceptTouchEvent(true);
+                return true;
+            }
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    /* @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
         if (mVelocityTracker == null) {
@@ -57,6 +55,7 @@ public class BannerPager extends ViewPager {
 
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
+                stopAutoPlay();
                 lastDownX = ev.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -72,25 +71,25 @@ public class BannerPager extends ViewPager {
                             }
                         },50);
                     }
-                   /* if (mVelocityTracker.getXVelocity()>0 && null!=adapter){
+                   *//* if (mVelocityTracker.getXVelocity()>0 && null!=adapter){
                                postDelayed(new Runnable() {
                                    @Override
                                    public void run() {
                                        setCurrentItem(adapter.getCount()-1,false);
                                    }
                                },50);
-                    }*/
+                    }*//*
                 }
 
                 if (null!=adapter && getCurrentItem() == adapter.getCount()-1 && -diffX > getWidth()/2){
-                    /*if (mVelocityTracker.getXVelocity()<0){
+                    *//*if (mVelocityTracker.getXVelocity()<0){
                                postDelayed(new Runnable() {
                                    @Override
                                    public void run() {
                                        setCurrentItem(0,false);
                                    }
                                },50);
-                    }*/
+                    }*//*
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -106,13 +105,14 @@ public class BannerPager extends ViewPager {
                     mVelocityTracker.recycle();
                     mVelocityTracker = null;
                 }
+                autoPlay();
                 break;
 
 
                 default:break;
         }
         return super.onTouchEvent(ev);
-    }
+    }*/
 
 
 }

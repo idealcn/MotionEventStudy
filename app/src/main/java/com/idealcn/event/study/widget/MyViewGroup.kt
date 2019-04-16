@@ -91,6 +91,8 @@ class MyViewGroup : ViewGroup {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_DOWN")
                // return false
                // parent.requestDisallowInterceptTouchEvent(true)
+              //  return false
+
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
@@ -121,6 +123,7 @@ class MyViewGroup : ViewGroup {
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
+//                return true
             }
             MotionEvent.ACTION_UP -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_UP")
@@ -149,7 +152,7 @@ class MyViewGroup : ViewGroup {
             }
             MotionEvent.ACTION_MOVE -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_MOVE")
-                //return true
+             //   return true
             }
             MotionEvent.ACTION_UP -> {
                 logger.log(Level.INFO,"ViewGroup:             ACTION_UP")

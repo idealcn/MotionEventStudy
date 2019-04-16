@@ -17,7 +17,7 @@
 
     </com.youth.banner.Banner>
 
-    <com.idealcn.event.study.widget.BannerPager
+    <com.idealcn.event.study.widget.pager.AutoPlayLayout
 
         android:id="@+id/viewPager"
         app:layout_constraintEnd_toEndOf="parent"
