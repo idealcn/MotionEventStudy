@@ -3,19 +3,14 @@ package com.idealcn.event.study.widget
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewConfigurationCompat
 import android.support.v4.widget.ViewDragHelper
 import android.support.v4.widget.ViewDragHelper.STATE_SETTLING
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.view.*
-import android.view.MotionEvent.*
+import android.view.MotionEvent
+import android.view.View
 import android.widget.FrameLayout
-import android.widget.Scroller
-import android.widget.TextView
-import android.widget.Toast
 import com.idealcn.event.study.R
-import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 
@@ -34,16 +29,9 @@ class DragView : FrameLayout {
     lateinit var deleteLayout: ConstraintLayout
     lateinit var contentLayout: ConstraintLayout
 
-    var scrollWidth: Int = 0
 
     var deleteWidth = 0
 
-    val scaledMaximumFlingVelocity: Int
-
-
-//    val scroller: Scroller = Scroller(context)
-
-    private lateinit var gestureDetector: GestureDetector
 
     constructor(context: Context) : this(context, null!!)
 
@@ -51,12 +39,7 @@ class DragView : FrameLayout {
 
     constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
 
-        scaledMaximumFlingVelocity = ViewConfiguration.get(context).scaledMaximumFlingVelocity
-        logger.info("scaledMaximumFlingVelocity: $scaledMaximumFlingVelocity")
 
-        gestureDetector = GestureDetector(context,object : GestureDetector.SimpleOnGestureListener(){
-
-        })
 
         dragHelper = ViewDragHelper.create(this, 1f, object : ViewDragHelper.Callback() {
             override fun tryCaptureView(child: View, pointerId: Int): Boolean {
@@ -139,24 +122,16 @@ class DragView : FrameLayout {
             }
 
 
+            override fun onViewCaptured(capturedChild: View, activePointerId: Int) {
+                super.onViewCaptured(capturedChild, activePointerId)
+
+            }
+
         })
 
 
     }
 
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        //继承自FrameLayout,无需再去测量child
-
-//        contentLayout.measure(widthMeasureSpec,heightMeasureSpec)
-
-//        deleteLayout.measure(MeasureSpec.makeMeasureSpec(deleteWidth,MeasureSpec.EXACTLY),heightMeasureSpec)
-
-//        val w = MeasureSpec.getSize(widthMeasureSpec)
-//        val h = MeasureSpec.getSize(heightMeasureSpec)
-//        setMeasuredDimension(w, h)
-    }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
@@ -164,56 +139,28 @@ class DragView : FrameLayout {
         deleteLayout.layout(contentLayout.width, 0, contentLayout.width + deleteLayout.width, height)
     }
 
-    private var velocityTracker: VelocityTracker? = null
-    private var lastX = 0
-    private var lastY = 0
-    private var pointerId = 0
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
-
-
-        if (null == velocityTracker)
-            velocityTracker = VelocityTracker.obtain()
-        velocityTracker!!.addMovement(event)
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            lastX = event.x.toInt()
-            lastY = event.y.toInt()
-            pointerId = event.getPointerId(0)
-        }
-        if (event.action == ACTION_MOVE) {
-            val slop = ViewConfiguration.get(context).scaledTouchSlop
-            if (Math.abs(event.x - lastX) < Math.abs(event.y - lastY) && Math.abs(event.y - lastY) > slop) {
-                parent.requestDisallowInterceptTouchEvent(false)
-                dragHelper.processTouchEvent(event)
-                return false
+        val action = event.action
+        when (action){
+            MotionEvent.ACTION_DOWN -> {
+                lastDownX = event.rawX
+                lastDownY = event.rawY
+                //确保该View的点击事件可被调用
+               // performClick()
             }
-
-            velocityTracker!!.computeCurrentVelocity(1000, scaledMaximumFlingVelocity.toFloat())
-
-            logger.info("yVelocityTracker: ${velocityTracker!!.getYVelocity(pointerId)}")
-
-            // TODO("待定")
-            parent.parent.parent.requestDisallowInterceptTouchEvent(true)
-
-        }
-
-        if (event.action == ACTION_UP) {
-
-
-            velocityTracker!!.clear()
-            velocityTracker!!.recycle()
-            velocityTracker = null
-
-            lastX = 0
-            lastY = 0
-            parent.requestDisallowInterceptTouchEvent(false)
-        }
-
-
-        if (event.action == ACTION_CANCEL) {
-            lastX = 0
-            lastY = 0
-            parent.requestDisallowInterceptTouchEvent(false)
+            MotionEvent.ACTION_MOVE -> {
+                val rawX = event.rawX
+                val rawY = event.rawY
+                if (Math.abs(rawX - lastDownX) > Math.abs(rawY - lastDownY)){
+                    parent.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            else -> {
+                lastDownX = 0f
+                lastDownY = 0f
+            }
         }
 
         dragHelper.processTouchEvent(event)
@@ -226,7 +173,8 @@ class DragView : FrameLayout {
         if (dragHelper.continueSettling(true))
             ViewCompat.postInvalidateOnAnimation(this)
     }
-
+    private  var lastDownX : Float = 0f
+    private  var lastDownY = 0f
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         return dragHelper.shouldInterceptTouchEvent(ev)
     }
@@ -237,8 +185,6 @@ class DragView : FrameLayout {
         deleteLayout = findViewById<ConstraintLayout>(R.id.layoutDelete)
         contentLayout = findViewById<ConstraintLayout>(R.id.layoutContent)
         deleteWidth = deleteLayout.layoutParams.width
-
-
     }
 
     override fun onAttachedToWindow() {
