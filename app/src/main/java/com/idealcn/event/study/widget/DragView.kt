@@ -8,6 +8,7 @@ import android.support.v4.widget.ViewDragHelper.STATE_SETTLING
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.VelocityTracker
 import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
@@ -33,14 +34,14 @@ class DragView : FrameLayout {
 
     var deleteWidth = 0
 
-    val scaledTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
+    private val scaledTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
 
 
-    constructor(context: Context) : this(context, null!!)
+    constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, attributeSet: AttributeSet) : this(context, attributeSet, 0)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
-    constructor(context: Context, attributeSet: AttributeSet, defStyle: Int) : super(context, attributeSet, defStyle) {
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(context, attributeSet, defStyle) {
 
 
 
@@ -143,20 +144,35 @@ class DragView : FrameLayout {
     }
 
 
+    private  var velocityTracker: VelocityTracker? = null
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        if (null==velocityTracker){
+            velocityTracker = VelocityTracker.obtain()
+        }
+        velocityTracker!!.addMovement(event)
 
         val action = event.action
         when (action){
             MotionEvent.ACTION_DOWN -> {
                 lastDownX = event.rawX
                 lastDownY = event.rawY
-                //确保该View的点击事件可被调用
-               // performClick()
+               /*
+               按下时,检测是否有打开的item,若有先关闭
+                */
+                val hasOpenItem = listener.hasOpenItem()
+                //parent.requestDisallowInterceptTouchEvent(!hasOpenItem)
+                if (hasOpenItem){
+                    listener.closeAll()
+                    return false
+                }
             }
             MotionEvent.ACTION_MOVE -> {
+                velocityTracker!!.computeCurrentVelocity(1000)
                 val rawX = event.rawX
                 val rawY = event.rawY
-                if (Math.abs(rawX - lastDownX) > Math.abs(rawY - lastDownY)){
+                if (Math.abs(rawX - lastDownX) > Math.abs(rawY - lastDownY) && Math.abs(velocityTracker!!.xVelocity)<ViewConfiguration.get(context).scaledMinimumFlingVelocity){
                     parent.requestDisallowInterceptTouchEvent(true)
                 }
             }
@@ -168,6 +184,8 @@ class DragView : FrameLayout {
                 }
                 lastDownX = 0f
                 lastDownY = 0f
+                parent.requestDisallowInterceptTouchEvent(true)
+                velocityTracker!!.clear()
             }
         }
 
@@ -219,6 +237,8 @@ class DragView : FrameLayout {
 
     open interface OnHorizontalDragListener {
         fun open(open: Boolean, dragView: DragView)
+        fun closeAll()
+        fun hasOpenItem(): Boolean
 
     }
 

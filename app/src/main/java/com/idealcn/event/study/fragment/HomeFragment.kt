@@ -17,6 +17,7 @@ import com.idealcn.event.study.R
 import com.idealcn.event.study.activity.DetailActivity
 
 import com.idealcn.event.study.widget.DragView
+import com.idealcn.event.study.widget.MyRecyclerView
 import com.idealcn.event.study.widget.pager.AutoPlayLayout
 import com.youth.banner.Banner
 import com.youth.banner.loader.ImageLoaderInterface
@@ -29,7 +30,7 @@ import com.youth.banner.loader.ImageLoaderInterface
  */
 class HomeFragment : Fragment() {
 
-    lateinit var recyclerView : RecyclerView
+    lateinit var recyclerView : MyRecyclerView
 
     val data = arrayListOf<String>(
             "RxJava","Retrofit","OkHttp","Dagger2","Room","Realm","Kotlin","Java8",
@@ -68,6 +69,14 @@ class HomeFragment : Fragment() {
             helper.setText(R.id.delete,data.get(layoutPosition)+"------------$layoutPosition")
 
             helper!!.getView<DragView>(R.id.dragView).setOnHorizontalDragListener(object : DragView.OnHorizontalDragListener{
+                override fun closeAll() {
+                    map.forEach {
+                        val dragView = it.value
+                        dragView.close()
+                    }
+                    map.clear()
+                }
+
                 override fun open(open:Boolean,dragView: DragView) {
 
                     //打开一个新的item
@@ -80,6 +89,8 @@ class HomeFragment : Fragment() {
                     }
 
                 }
+
+                override fun hasOpenItem(): Boolean  = map.isNotEmpty()
             })
         }
 

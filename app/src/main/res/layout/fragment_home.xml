@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.idealcn.event.study.widget.MyRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
