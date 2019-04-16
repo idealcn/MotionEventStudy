@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import com.idealcn.event.study.R
 import java.util.logging.Logger
@@ -31,6 +32,8 @@ class DragView : FrameLayout {
 
 
     var deleteWidth = 0
+
+    val scaledTouchSlop: Int = ViewConfiguration.get(context).scaledTouchSlop
 
 
     constructor(context: Context) : this(context, null!!)
@@ -74,10 +77,10 @@ class DragView : FrameLayout {
             override fun onViewDragStateChanged(state: Int) {
                 super.onViewDragStateChanged(state)
                 logger.info("onViewDragStateChanged: state: $state")
-                when (state) {
+               /* when (state) {
                     STATE_SETTLING -> requestDisallowInterceptTouchEvent(true)
                     else -> requestDisallowInterceptTouchEvent(false)
-                }
+                }*/
 
             }
 
@@ -158,6 +161,11 @@ class DragView : FrameLayout {
                 }
             }
             else -> {
+                //抬起手指时,检测是否发生了滑动,没有的话就触发单击事件
+                if (Math.abs(lastDownX - event.rawX)<=scaledTouchSlop
+                        && Math.abs(lastDownY-event.rawY)<=scaledTouchSlop){
+                    performClick()
+                }
                 lastDownX = 0f
                 lastDownY = 0f
             }

@@ -4,24 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.TOUCH_SLOP_PAGING
 import android.view.*
 import android.widget.ImageView
+import android.widget.Toast
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.idealcn.event.study.R
 import com.idealcn.event.study.activity.DetailActivity
-import com.idealcn.event.study.widget.BannerPager
 
 import com.idealcn.event.study.widget.DragView
+import com.idealcn.event.study.widget.pager.AutoPlayLayout
 import com.youth.banner.Banner
 import com.youth.banner.loader.ImageLoaderInterface
-import java.util.ArrayList
 
 
 /**
@@ -123,12 +121,20 @@ class HomeFragment : Fragment() {
         })
 
 
+        adapter.setOnItemClickListener { adapter, view, position ->
+            //先关闭已经打开的item,仿qq消息列表界面 效果
+            if(openPosition>-1){
+                map["$openPosition"]?.close()
+                openPosition = -1
+                return@setOnItemClickListener
+            }
+            startActivity(Intent(context,DetailActivity::class.java))
+        }
+
         val listOf = listOf<Int>(
                 R.drawable.fengjing,
                 R.drawable.fengjing1,
-                R.drawable.fengjing2,
-                R.drawable.fengjing3,
-                R.drawable.fengjing4
+                R.drawable.fengjing2
         )
 
 
@@ -143,41 +149,45 @@ class HomeFragment : Fragment() {
         }
 
 
-        view.findViewById<BannerPager>(R.id.viewPager).adapter = object : PagerAdapter(){
+        val autoPlayLayout = view.findViewById<AutoPlayLayout>(R.id.viewPager)
+        autoPlayLayout.setImageList(listOf)
+        autoPlayLayout.startPlay()
 
-            override fun isViewFromObject(view: View, `object`: Any): Boolean {
-                return view == `object`
-            }
+        /*    .adapter = object : PagerAdapter(){
 
-            override fun getCount(): Int {
-                return listOf.size
-            }
-
-            override fun instantiateItem(container: ViewGroup, position: Int): ImageView {
-                var imageView :ImageView? =   imageList[position]
-                if (imageView == null) {
-                    imageView = ImageView(_context)
-                    imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-                    imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                    imageView.setImageResource(listOf[position])
-                }
-                container.addView(imageView)
-                return imageView
-            }
-
-            override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-                container.removeView(`object`as View)
-            }
-
+        override fun isViewFromObject(view: View, `object`: Any): Boolean {
+            return view == `object`
         }
 
+        override fun getCount(): Int {
+            return listOf.size
+        }
+
+        override fun instantiateItem(container: ViewGroup, position: Int): ImageView {
+            var imageView :ImageView? =   imageList[position]
+            if (imageView == null) {
+                imageView = ImageView(_context)
+                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                imageView.setImageResource(listOf[position])
+            }
+            container.addView(imageView)
+            return imageView
+        }
+
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            container.removeView(`object`as View)
+        }
+
+    }
+*/
 
         //轮播图
 
 
         val banner = getView()!!.findViewById<Banner>(R.id.banner)
 
-        banner.isAutoPlay(true)
+        banner.isAutoPlay(false)
         .setDelayTime(1500)
                 .setImageLoader(object : ImageLoaderInterface<ImageView>{
                     override fun createImageView(context: Context?): ImageView {
@@ -198,12 +208,10 @@ class HomeFragment : Fragment() {
         .setImages(arrayListOf<Int>(
                 R.drawable.fengjing,
                 R.drawable.fengjing1,
-                R.drawable.fengjing2,
-                R.drawable.fengjing3,
-                R.drawable.fengjing4
+                R.drawable.fengjing2
                 ))
        .setBannerTitles(listOf(
-                "风景","美女","车展","美食"
+                "风景","美女","车展"
         ))
         banner.start()
     }
