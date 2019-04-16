@@ -20,26 +20,17 @@ public class MyViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-
-        return super.dispatchTouchEvent(ev);
-    }
 
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction()==MotionEvent.ACTION_MOVE){
+        final int action = ev.getAction();
+        if (action==MotionEvent.ACTION_DOWN ){
             getParent().requestDisallowInterceptTouchEvent(true);
-            return true;
         }
-//        return true;
+
         return super.onInterceptTouchEvent(ev);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
 
-        return super.onTouchEvent(ev);
-    }
 }
