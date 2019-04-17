@@ -161,12 +161,12 @@ class DragView : FrameLayout {
                /*
                按下时,检测是否有打开的item,若有先关闭
                 */
-                val hasOpenItem = listener.hasOpenItem()
+               /* val hasOpenItem = listener.hasOpenItem()
                 //parent.requestDisallowInterceptTouchEvent(!hasOpenItem)
                 if (hasOpenItem){
                     listener.closeAll()
                     return false
-                }
+                }*/
             }
             MotionEvent.ACTION_MOVE -> {
                 velocityTracker!!.computeCurrentVelocity(1000)
@@ -174,6 +174,8 @@ class DragView : FrameLayout {
                 val rawY = event.rawY
                 if (Math.abs(rawX - lastDownX) > Math.abs(rawY - lastDownY) && Math.abs(velocityTracker!!.xVelocity)<ViewConfiguration.get(context).scaledMinimumFlingVelocity){
                     parent.requestDisallowInterceptTouchEvent(true)
+                }else if (Math.abs(rawX - lastDownX) < Math.abs(rawY - lastDownY)){
+                    parent.requestDisallowInterceptTouchEvent(false)
                 }
             }
             else -> {

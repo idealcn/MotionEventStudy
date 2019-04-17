@@ -80,14 +80,18 @@ class HomeFragment : Fragment() {
                 override fun open(open:Boolean,dragView: DragView) {
 
                     //打开一个新的item
-                    if(layoutPosition!=openPosition && open){
+                   /* if(layoutPosition!=openPosition && open){
                         //存储新打开的item
                         map["$layoutPosition"] = dragView
                         //关闭之前打开的item
                         map["$openPosition"]?.close()
                         openPosition = layoutPosition
+                    }*/
+                    if (open){
+                        map["$layoutPosition"] = dragView
+                    }else {
+                        map.remove("$layoutPosition")
                     }
-
                 }
 
                 override fun hasOpenItem(): Boolean  = map.isNotEmpty()
@@ -119,14 +123,13 @@ class HomeFragment : Fragment() {
 
 
         }
-        recyclerView.setRecyclerListener(object : RecyclerView.RecyclerListener{
-            override fun onViewRecycled(holder: RecyclerView.ViewHolder?) {
-                holder?.let {
-                    val recyclable = it.isRecyclable
-                    val adapterPosition = it.adapterPosition
-                    val layoutPosition = it.layoutPosition
-                    println("recyclable: $recyclable,adapterPosition: $adapterPosition,layoutPosition: $layoutPosition")
-                }
+        recyclerView.setCallback(object : MyRecyclerView.OnAdapterOpenItemCallback{
+            override fun hasOpenItems(): Boolean {
+                return map.isNotEmpty()
+            }
+
+            override fun closeAllOpenAdapterItems() {
+                closeAllOpenItems()
             }
 
         })
@@ -234,6 +237,15 @@ class HomeFragment : Fragment() {
     }
 
 
+    private fun closeAllOpenItems(){
+        try {
+            map.forEach {
+                it.value.close()
+            }
+        }finally {
+            map.clear()
+        }
+    }
 
 
 }

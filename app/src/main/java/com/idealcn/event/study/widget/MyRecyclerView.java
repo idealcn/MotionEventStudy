@@ -20,7 +20,6 @@ public class MyRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
         scaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return super.dispatchTouchEvent(ev);
@@ -36,6 +35,12 @@ public class MyRecyclerView extends RecyclerView {
             case MotionEvent.ACTION_DOWN:{
                 lastDownX = e.getRawX();
                 lastDownY = e.getRawY();
+
+                if (callback.hasOpenItems()){
+                    callback.closeAllOpenAdapterItems();
+                    return true;
+                }
+
                 break;
             }
             case MotionEvent.ACTION_MOVE:{
@@ -54,5 +59,15 @@ public class MyRecyclerView extends RecyclerView {
             }
         }
         return super.onInterceptTouchEvent(e);
+    }
+
+    public void setCallback(OnAdapterOpenItemCallback callback) {
+        this.callback = callback;
+    }
+
+    private OnAdapterOpenItemCallback callback;
+    public interface OnAdapterOpenItemCallback{
+        boolean hasOpenItems();
+        void closeAllOpenAdapterItems();
     }
 }
