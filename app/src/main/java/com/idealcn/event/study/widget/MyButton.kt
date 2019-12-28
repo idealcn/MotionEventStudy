@@ -1,15 +1,11 @@
 package com.idealcn.event.study.widget
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewPropertyAnimator
-import android.widget.Button
-import java.util.jar.Attributes
+import android.view.ViewGroup
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -57,10 +53,13 @@ class MyButton : View {
                 println("lastDownX:$lastDownX,  lastDownY: $lastDownY")
 
 
+                val diffX = event.x - lastDownX
+                val diffY = event.y - lastDownY
 
-//                ViewCompat.postInvalidateOnAnimation(this)
+               // ViewCompat.postInvalidateOnAnimation(this)
                 //requestLayout()
-
+                val parent = parent as ViewGroup
+                parent.scrollBy(diffX.toInt(), diffY.toInt())
 
             }
             MotionEvent.ACTION_UP -> {
@@ -103,7 +102,7 @@ class MyButton : View {
 
         //返回false和super.onTouchEvent(event)是一样的.
 //        return false
-     //  return super.onTouchEvent(event)
+//       return super.onTouchEvent(event)
 
         return true
     }
@@ -138,5 +137,10 @@ class MyButton : View {
         return super.dispatchTouchEvent(event)
         //return true //自己消费掉
        // return false
+    }
+
+
+    override fun computeScroll() {
+        super.computeScroll()
     }
 }
